@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import '/src/modules/shared_preferences/providers/thread.dart'
+    show startSharedPrefThread;
 import '/src/modules/components/button.dart' show CustomeMaterialButton;
 import '/src/modules/shared_preferences/providers/provider.dart'
     show selectedSharedPrefTypeProvider;
@@ -54,9 +56,7 @@ class TopicsPanel extends ConsumerWidget {
                       Theme.of(context).colorScheme.secondary.withOpacity(.3),
                   margin: const EdgeInsets.all(10),
                   padding: const EdgeInsets.all(10),
-                  onPressed: () {
-                    ref.read(selectedSharedPrefTypeProvider.notifier).next();
-                  },
+                  onPressed: () async => await startSharedPrefThread(),
                   child: Center(
                     child: Text(
                       'Run',
