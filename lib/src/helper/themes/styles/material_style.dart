@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import '/helper/themes/color_schemes.dart'
+import '/src/helper/themes/color_schemes.dart'
     show lightColorScheme, darkColorScheme;
 
 ButtonThemeData lightButtonTheme = ButtonThemeData(

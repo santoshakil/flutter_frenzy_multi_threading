@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../../colors/colors.dart' show black, white;
+import '../../constants/colors/colors.dart' show black, white;
 import '../color_schemes.dart' show darkColorScheme, lightColorScheme;
 
 final lightTextTheme = TextTheme(

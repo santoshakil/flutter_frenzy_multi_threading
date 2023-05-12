@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import '../../colors/colors.dart' show transparentColor;
+import '../../constants/colors/colors.dart' show transparentColor;
 import '../../themes/color_schemes.dart' show lightColorScheme, darkColorScheme;
 
 ///? Light Theme

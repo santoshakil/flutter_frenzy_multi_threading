@@ -6,7 +6,7 @@ import 'package:flutter/material.dart'
         BorderRadius,
         EdgeInsets,
         FloatingLabelBehavior;
-import '/helper/themes/color_schemes.dart'
+import '/src/helper/themes/color_schemes.dart'
     show lightColorScheme, darkColorScheme;
 
 final lightInputDecorationTheme = InputDecorationTheme(

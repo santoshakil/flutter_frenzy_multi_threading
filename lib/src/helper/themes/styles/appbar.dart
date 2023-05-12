@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart'
     show AppBarTheme, BorderRadius, Radius, RoundedRectangleBorder;
 import 'package:flutter/services.dart' show SystemUiOverlayStyle;
-import '../../colors/colors.dart' show white, grey800, blueGrey800, black;
+import '../../constants/colors/colors.dart' show white, grey800, blueGrey800, black;
 
 /// Light
 AppBarTheme lightAppBarTheme = AppBarTheme(

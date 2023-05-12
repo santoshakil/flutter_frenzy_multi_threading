@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart' show GoogleFonts;
-import '/helper/colors/colors.dart';
-import '/helper/themes/styles/material_style.dart' show lightButtonTheme;
+import '../constants/colors/colors.dart';
+import '/src/helper/themes/styles/material_style.dart' show lightButtonTheme;
 import 'color_schemes.dart' show lightColorScheme;
 import 'styles/appbar.dart' show lightAppBarTheme;
 import 'styles/elevated.dart' show lightElevatedButtonTheme;
