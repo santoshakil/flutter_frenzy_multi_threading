@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../../helper/themes/dark.dart';
 import '../../helper/themes/light.dart' show lightTheme;
 import 'components/body.dart' show SharedPrefBody;
 
@@ -8,7 +9,8 @@ class SharedPreferencesScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Theme(
-      data: lightTheme,
+      // data: lightTheme,
+      data: darkTheme,
       child: const Scaffold(
         body: SharedPrefBody(),
       ),

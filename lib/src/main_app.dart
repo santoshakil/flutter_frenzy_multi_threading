@@ -4,7 +4,7 @@ import 'modules/shared_preferences/shared_preferences.dart'
     show SharedPreferencesScreen;
 import 'package:flutter_riverpod/flutter_riverpod.dart' show ProviderScope;
 
-import 'modules/home/home.dart' show HomeScreen;
+// import 'modules/home/home.dart' show HomeScreen;
 
 class MainApp extends StatelessWidget {
   const MainApp({super.key});
