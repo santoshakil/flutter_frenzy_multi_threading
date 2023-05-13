@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_frenzy_multi_threading/src/modules/shared_preferences/providers/provider.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
-import '/src/helper/constants/colors/colors.dart' show black87, white;
+import '/src/helper/enum/enums.dart' show SharedPrefTypes;
+import '/src/helper/size_config.dart' show ScreenSize;
+import '/src/modules/shared_preferences/providers/provider.dart'
+    show selectedSharedPrefTypeProvider;
+import 'package:flutter_riverpod/flutter_riverpod.dart'
+    show Consumer, ConsumerWidget, WidgetRef;
 
 class SharedPrefPreviewPanel extends StatelessWidget {
   const SharedPrefPreviewPanel({super.key});
@@ -15,7 +18,7 @@ class SharedPrefPreviewPanel extends StatelessWidget {
         child: ClipRRect(
           borderRadius: BorderRadius.circular(20),
           child: ColoredBox(
-            color: white,
+            color: Colors.black38,
             child: Column(
               children: [
                 Padding(
@@ -25,27 +28,64 @@ class SharedPrefPreviewPanel extends StatelessWidget {
                         ref.watch(selectedSharedPrefTypeProvider);
                     return Text(
                       selectedType.title ?? '',
-                      style: textTheme.labelLarge!.copyWith(
-                        color: black87,
-                      ),
+                      style: textTheme.labelLarge,
                     );
                   }),
                 ),
-                Expanded(
-                  child: Center(
-                    child: Text(
-                      'Preview',
-                      style: textTheme.labelMedium!.copyWith(
-                        color: black87,
-                      ),
-                    ),
-                  ),
-                ),
+                _SharedPrefPreview(textTheme: textTheme),
               ],
             ),
           ),
         ),
       ),
     );
+  }
+}
+
+class _SharedPrefPreview extends ConsumerWidget {
+  const _SharedPrefPreview({
+    Key? key,
+    required this.textTheme,
+  }) : super(key: key);
+
+  final TextTheme textTheme;
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final selectedType = ref.watch(selectedSharedPrefTypeProvider);
+    return Expanded(
+        child: Stack(
+      children: [
+        for (final e in SharedPrefTypes.values)
+          Positioned.fill(
+            child: AnimatedOpacity(
+              duration: const Duration(milliseconds: 500),
+              opacity: selectedType == e ? 1 : 0,
+              curve: Curves.easeIn,
+              child: SizedBox(
+                width: ScreenSize.width,
+                height: ScreenSize.height,
+                child: e.path != null
+                    ? Image.asset(
+                        e.path!,
+                        fit: BoxFit.contain,
+                      )
+                    : Center(
+                        child: Padding(
+                          padding: const EdgeInsets.all(20),
+                          child: Text(
+                            e.des ?? '',
+                            textAlign: TextAlign.center,
+                            style: textTheme.labelLarge!.copyWith(
+                              color: e.title == 'Error' ? Colors.red : null,
+                            ),
+                          ),
+                        ),
+                      ),
+              ),
+            ),
+          )
+      ],
+    ));
   }
 }

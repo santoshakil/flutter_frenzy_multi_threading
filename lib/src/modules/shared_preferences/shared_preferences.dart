@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import '../../helper/themes/dark.dart';
-import '../../helper/themes/light.dart' show lightTheme;
 import 'components/body.dart' show SharedPrefBody;
 
 class SharedPreferencesScreen extends StatelessWidget {
