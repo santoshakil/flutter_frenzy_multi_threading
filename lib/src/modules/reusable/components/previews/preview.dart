@@ -81,6 +81,7 @@ class _SharedPrefPreview extends ConsumerWidget {
                             e.des ?? '',
                             textAlign: TextAlign.center,
                             style: textTheme.labelLarge!.copyWith(
+                              fontSize: 35,
                               color: e.title == 'Error' ? Colors.red : null,
                             ),
                           ),
