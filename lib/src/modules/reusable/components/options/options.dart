@@ -3,6 +3,8 @@ import 'package:flutter_frenzy_multi_threading/src/helper/constants/colors/color
 import 'package:flutter_frenzy_multi_threading/src/modules/reusable/components/next_button.dart';
 import 'package:flutter_frenzy_multi_threading/src/modules/reusable/components/run_code.dart';
 
+import 'option_list.dart';
+
 class OptionsSelectPanel extends StatelessWidget {
   const OptionsSelectPanel({Key? key}) : super(key: key);
 
@@ -25,6 +27,7 @@ class OptionsSelectPanel extends StatelessWidget {
                     style: Theme.of(context).textTheme.labelLarge,
                   ),
                 ),
+                const OptionsList(),
                 const NextButton(),
                 const RunCodeButton(),
               ],

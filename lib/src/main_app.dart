@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'helper/size_config.dart';
-import 'modules/shared_preferences/shared_preferences.dart'
-    show SharedPreferencesScreen;
+import 'modules/reusable/reusable.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart' show ProviderScope;
 
 // import 'modules/home/home.dart' show HomeScreen;
@@ -22,7 +21,8 @@ class MainApp extends StatelessWidget {
               child: child!);
         },
         // home: const HomeScreen(),
-        home: const SharedPreferencesScreen(),
+        // home: const SharedPreferencesScreen(),
+        home: const ReusableScreen(),
       ),
     );
   }

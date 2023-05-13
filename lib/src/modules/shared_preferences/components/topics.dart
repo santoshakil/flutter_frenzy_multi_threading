@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import '/src/modules/shared_preferences/providers/thread.dart'
+import '../../reusable/providers/threads/shared_pref.dart'
     show startSharedPrefThread;
 import '/src/modules/components/button.dart' show CustomeMaterialButton;
 import '/src/modules/shared_preferences/providers/provider.dart'

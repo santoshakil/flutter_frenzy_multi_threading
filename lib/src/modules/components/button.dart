@@ -29,7 +29,7 @@ class CustomeMaterialButton extends StatelessWidget {
           color: backgroundColor,
           highlightColor: backgroundColor,
           hoverElevation: 0,
-          splashColor: backgroundColor!.withOpacity(.3),
+          splashColor: backgroundColor?.withOpacity(.3),
           shape:
               RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
           padding: padding,

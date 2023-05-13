@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_frenzy_multi_threading/src/modules/components/button.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
+import '/src/modules/components/button.dart'  show CustomeMaterialButton;
+import '/src/modules/reusable/providers/provider.dart'  show selectedButtonProvider, selectedScreenProvider;
+import 'package:flutter_riverpod/flutter_riverpod.dart' show ConsumerWidget, WidgetRef;
 
 class NextButton extends ConsumerWidget {
   const NextButton({super.key});
@@ -12,7 +13,11 @@ class NextButton extends ConsumerWidget {
       margin: const EdgeInsets.symmetric(horizontal: 10, vertical: 0),
       padding: const EdgeInsets.all(10),
       onPressed: () {
-        // ref.read(selectedSharedPrefTypeProvider.notifier).next();
+        final selectedScreen = ref.read(selectedScreenProvider);
+        ref
+            .read(selectedButtonProvider(selectedScreen.screenData.screenName)
+                .notifier)
+            .next();
       },
       child: Center(
         child: Text(
