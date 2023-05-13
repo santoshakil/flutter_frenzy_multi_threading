@@ -1,3 +1,6 @@
+import 'package:flutter_frenzy_multi_threading/src/modules/reusable/models/screen.dart';
+import 'package:flutter_frenzy_multi_threading/src/modules/reusable/repository/screen.dart';
+
 enum SharedPrefTypes {
   init(title: null, des: 'Shared Preference in Isolate', path: null),
   setup(
@@ -19,4 +22,16 @@ enum SharedPrefTypes {
   final String? path;
   const SharedPrefTypes(
       {required this.title, required this.des, required this.path});
+}
+
+enum Screens {
+  sharedPref(screenData: sharedPrefData);
+
+  final ScreenData screenData;
+  const Screens({required this.screenData});
+}
+
+enum ScreenName {
+  sharedPref,
+  alwaysAlive,
 }
