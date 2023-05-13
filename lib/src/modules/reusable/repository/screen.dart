@@ -20,3 +20,23 @@ const sharedPrefData = ScreenData(
         path: 'assets/images/shared_pref_final.png')
   ],
 );
+
+const alwaysAliveData = ScreenData(
+  screenName: ScreenName.alwaysAlive,
+  previewData: [
+    PreviewData(title: null, des: 'Always Alive Thread', path: null),
+    PreviewData(
+        title: 'Code Preview',
+        des: null,
+        path: null),
+    PreviewData(
+        title: 'Error',
+        des:
+            null,
+        path: null),
+    PreviewData(
+        title: 'How can we fix this?',
+        des: null,
+        path:null)
+  ],
+);

@@ -1,13 +1,18 @@
-import 'package:flutter_frenzy_multi_threading/src/helper/enum/enums.dart';
-import 'package:flutter_frenzy_multi_threading/src/modules/reusable/models/screen.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
+import '/src/helper/enum/enums.dart' show ScreenName, Screens;
+import '/src/modules/reusable/models/screen.dart' show PreviewData;
+import 'package:flutter_riverpod/flutter_riverpod.dart'
+    show
+        AutoDisposeFamilyNotifier,
+        AutoDisposeNotifierProviderFamily,
+        Notifier,
+        NotifierProvider;
 
 final selectedScreenProvider =
     NotifierProvider<_SelectedScreen, Screens>(_SelectedScreen.new);
 
 class _SelectedScreen extends Notifier<Screens> {
   @override
-  Screens build() => Screens.sharedPref;
+  Screens build() => Screens.alwaysAlive;
 }
 
 final selectedButtonProvider =

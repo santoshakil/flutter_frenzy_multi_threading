@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
-import '/src/helper/enum/enums.dart' show ScreenName;
+import '/src/modules/reusable/providers/threads/always_alive.dart'
+    show parseToAlwaysAliveThread;
+import '/src/helper/enum/enums.dart' show IsolateType, ScreenName;
 import '/src/modules/components/button.dart' show CustomeMaterialButton;
 import '/src/modules/reusable/providers/provider.dart'
     show selectedScreenProvider;
@@ -18,11 +20,13 @@ class RunCodeButton extends ConsumerWidget {
       margin: const EdgeInsets.all(10),
       padding: const EdgeInsets.all(10),
       onPressed: () async {
-        final selected =
-            ref.watch(selectedScreenProvider).screenData.screenName;
+        final selected = ref.read(selectedScreenProvider).screenData.screenName;
         if (ScreenName.sharedPref == selected) {
           await startSharedPrefThread();
-        } else if (ScreenName.alwaysAlive == selected) {}
+        } else if (ScreenName.alwaysAlive == selected) {
+          await parseToAlwaysAliveThread(
+              [IsolateType.write, 'Write Something in Always Alive Thread']);
+        }
       },
       child: Center(
         child: Text(
