@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_frenzy_multi_threading/view/intro.view.dart';
 
 import '../view/compute.view.dart';
 import '../view/data.view.dart';
@@ -8,6 +9,11 @@ import '../view/persistant.view.dart';
 import '../view/synchronization.view.dart';
 
 enum Tasks {
+  intro(
+    'Intro',
+    'This is the introduction of the Flutter Frenzy.',
+    IntroView(key: Key('intro.task.view')),
+  ),
   compute(
     'Compute',
     'compute is used to perform short-lived heavy task in separate isolate',
