@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'helper/size_config.dart';
+import 'modules/large_image/large_image.dart';
 import 'modules/reusable/reusable.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart' show ProviderScope;
 
@@ -22,7 +23,8 @@ class MainApp extends StatelessWidget {
         },
         // home: const HomeScreen(),
         // home: const SharedPreferencesScreen(),
-        home: const ReusableScreen(),
+        // home: const ReusableScreen(),
+        home: const LargeImageScreen(),
       ),
     );
   }
