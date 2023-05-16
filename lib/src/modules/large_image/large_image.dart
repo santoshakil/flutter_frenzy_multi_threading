@@ -8,9 +8,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_frenzy_multi_threading/src/helper/size_config.dart';
 import 'package:flutter_frenzy_multi_threading/src/modules/components/button.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'dart:io';
 import 'package:image/image.dart' as img;
 import 'package:path_provider/path_provider.dart';
+
+DateTime? start;
+DateTime? end;
 
 class LargeImageScreen extends StatefulWidget {
   const LargeImageScreen({super.key});
@@ -20,6 +24,12 @@ class LargeImageScreen extends StatefulWidget {
 }
 
 class _LargeImageScreenState extends State<LargeImageScreen> {
+  @override
+  void initState() {
+    super.initState();
+    WidgetsFlutterBinding.ensureInitialized();
+  }
+
   File? f;
   @override
   Widget build(BuildContext context) {
@@ -27,33 +37,42 @@ class _LargeImageScreenState extends State<LargeImageScreen> {
       body: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          if (f != null)
-            SizedBox(
+          if (f == null) const CircularProgressIndicator(),
+          Consumer(builder: (context, state, __) {
+            final fileP = state.watch(fileProvider);
+            if (fileP == null) return const SizedBox();
+            return SizedBox(
                 width: ScreenSize.width,
                 height: ScreenSize.height * .4,
-                child: Image.file(f!)),
-          SizedBox(
-              child: ElevatedButton(
-            onPressed: () async {
-              f = await loadImg('assets/images/IMG_20230514_215912.jpg');
-
-              setState(() {});
-            },
-            child: Text('------------------'),
-          )
-              // child: FutureBuilder<Uint8List>(
-              //   future: loadImg('assets/images/IMG_20230514_215912.jpg'),
-              //   builder: (context, snapshot) {
-              //     if (snapshot.hasData) {
-              //       final imageBytes = snapshot.data!;
-              //       return Image.memory(imageBytes);
-              //     } else if (snapshot.hasError) {
-              //       return Text('Error occurred while loading the image.');
-              //     }
-              //     return const CircularProgressIndicator();
-              //   },
-              // ),
-              ),
+                child: Image.file(fileP));
+          }),
+          Consumer(builder: (context, state, __) {
+            return SizedBox(
+                child: ElevatedButton(
+              onPressed: () async {
+                const assetsPath = 'assets/images/IMG_20230514_215912.jpg';
+                start = DateTime.now();
+                // f = await loadImg(assetsPath);
+                // log(start!.toLocal().toString());
+                // log(DateTime.now().difference(start!).toString());
+                await startThread(state, assetsPath);
+              },
+              child: Text('------------------'),
+            )
+                // child: FutureBuilder<Uint8List>(
+                //   future: loadImg('assets/images/IMG_20230514_215912.jpg'),
+                //   builder: (context, snapshot) {
+                //     if (snapshot.hasData) {
+                //       final imageBytes = snapshot.data!;
+                //       return Image.memory(imageBytes);
+                //     } else if (snapshot.hasError) {
+                //       return Text('Error occurred while loading the image.');
+                //     }
+                //     return const CircularProgressIndicator();
+                //   },
+                // ),
+                );
+          }),
           SizedBox(
             width: ScreenSize.width,
             height: ScreenSize.height * .4,
@@ -148,4 +167,62 @@ Future<File> assetsToFile(String assetPath) async {
   await imageFile.writeAsBytes(byteList);
 
   return imageFile;
+}
+
+Future<void> startThread(WidgetRef ref, String path) async {
+  final receivePort = ReceivePort();
+  final file = await assetsToFile(path);
+  final isolate = await Isolate.spawn(
+    _doSomethingInIsolate,
+    [receivePort.sendPort, ServicesBinding.rootIsolateToken, file],
+    onExit: receivePort.sendPort,
+    onError: receivePort.sendPort,
+  );
+  isolate.addOnExitListener(receivePort.sendPort, response: 'Isolate exited');
+  receivePort.listen((message) {
+    final file = message as File;
+    log(file.path);
+
+    ref.read(fileProvider.notifier).update(file.path);
+  });
+  debugPrint('Isolate Started:');
+}
+
+Future<void> _doSomethingInIsolate(List m) async {
+  DartPluginRegistrant.ensureInitialized();
+  BackgroundIsolateBinaryMessenger.ensureInitialized(m[1] as RootIsolateToken);
+
+  final file = m.last as File;
+///////////////////////////
+  try {
+    final fileBytes = await file.readAsBytes();
+    final uint8List = Uint8List.fromList(fileBytes);
+    const fileName = 'image.jpg'; // Set a desired file name
+
+    final img.Image? image = img.decodeImage(uint8List);
+//  { num grid = 10, num amount = 1, Image? mask, Channel maskChannel = Channel.luminance }
+    img.billboard(image!,
+        grid: 10, amount: 1, maskChannel: img.Channel.luminance);
+    final Directory directory = await getApplicationDocumentsDirectory();
+    final String filePath = '${directory.path}/$fileName';
+    File imageFile = File(filePath);
+    imageFile = await imageFile.writeAsBytes(img.encodeJpg(image));
+
+    /////////////////////
+    final sendPort = m[0] as SendPort;
+    sendPort.send(imageFile);
+  } catch (e) {
+    log('!!!ERROR : $e');
+  }
+}
+
+final fileProvider = NotifierProvider<_File, File?>(_File.new);
+
+class _File extends Notifier<File?> {
+  @override
+  File? build() => null;
+  void update(String path) {
+    print(path);
+    state = File(path);
+  }
 }
