@@ -4,13 +4,15 @@ publish_to: "none"
 version: 0.1.0
 
 environment:
-  sdk: ">=3.0.0 <4.0.0"
+  sdk: ">=2.19.6 <3.0.0"
 
 dependencies:
   flutter:
     sdk: flutter
   flutter_riverpod: ^2.3.6
   google_fonts: ^4.0.4
+  image: ^4.0.17
+  path_provider: ^2.0.15
   shared_preferences: ^2.1.1
 
 dev_dependencies:
@@ -23,6 +25,6 @@ flutter:
   assets:
     - assets/
     - assets/images/ 
-    - assets/icons/ 
+    # - assets/icons/ 
 
 
