@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_frenzy_multi_threading/src/modules/image_processing/providers/provider.dart';
+import '/src/modules/image_processing/providers/provider.dart'
+    show imgFileProvider, loadingProvider;
 import '/src/modules/reusable/providers/threads/always_alive.dart'
     show parseToAlwaysAliveThread;
-import '/src/helper/enum/enums.dart' show IsolateType, ScreenName;
+import '/src/helper/enum/enums.dart' show IsolateType, ScreenName, Screens;
 import '/src/modules/components/button.dart' show CustomeMaterialButton;
 import '/src/modules/reusable/providers/provider.dart'
     show selectedScreenProvider;
@@ -16,6 +17,8 @@ class RunCodeButton extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final screen = ref.watch(selectedScreenProvider);
+    if (screen == Screens.imageProcessing) return const SizedBox(height: 10);
     return CustomeMaterialButton(
       backgroundColor: Theme.of(context).colorScheme.secondary.withOpacity(.3),
       margin: const EdgeInsets.all(10),

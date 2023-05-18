@@ -13,6 +13,23 @@ final selectedScreenProvider =
 class _SelectedScreen extends Notifier<Screens> {
   @override
   Screens build() => Screens.imageProcessing;
+  void next() {
+    const list = Screens.values;
+    if (state == list.last) {
+      state = list.first;
+    } else {
+      state = list[list.indexOf(state) + 1];
+    }
+  }
+
+  void previous() {
+    const list = Screens.values;
+    if (state == list.first) {
+      state = list.last;
+    } else {
+      state = list[list.indexOf(state) - 1];
+    }
+  }
 }
 
 final selectedButtonProvider =

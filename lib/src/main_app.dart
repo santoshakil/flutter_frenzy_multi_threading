@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
-import 'helper/size_config.dart'; 
-import 'modules/reusable/reusable.dart';
+import 'helper/size_config.dart' show ScreenSize;
+import 'modules/reusable/reusable.dart' show ReusableScreen;
 import 'package:flutter_riverpod/flutter_riverpod.dart' show ProviderScope;
-
-// import 'modules/home/home.dart' show HomeScreen;
 
 class MainApp extends StatelessWidget {
   const MainApp({super.key});
@@ -20,10 +18,7 @@ class MainApp extends StatelessWidget {
                   .copyWith(textScaleFactor: 1.0, devicePixelRatio: 1.0),
               child: child!);
         },
-        // home: const HomeScreen(),
-        // home: const SharedPreferencesScreen(),
         home: const ReusableScreen(),
-        // home: const LargeImageScreen(),
       ),
     );
   }

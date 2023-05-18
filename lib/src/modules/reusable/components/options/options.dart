@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_frenzy_multi_threading/src/helper/constants/colors/colors.dart';
-import 'package:flutter_frenzy_multi_threading/src/modules/reusable/components/next_button.dart';
-import 'package:flutter_frenzy_multi_threading/src/modules/reusable/components/run_code.dart';
+import '/src/helper/constants/colors/colors.dart' show white;
+import '/src/modules/reusable/components/nevigation.dart'
+    show NavigationButtons;
+import '/src/modules/reusable/components/next_button.dart' show NextButton;
+import '/src/modules/reusable/components/run_code.dart' show RunCodeButton;
 
-import 'option_list.dart';
+import 'option_list.dart' show OptionsList;
 
 class OptionsSelectPanel extends StatelessWidget {
   const OptionsSelectPanel({Key? key}) : super(key: key);
@@ -30,6 +32,7 @@ class OptionsSelectPanel extends StatelessWidget {
                 const OptionsList(),
                 const NextButton(),
                 const RunCodeButton(),
+                const NavigationButtons(),
               ],
             ),
           ),
