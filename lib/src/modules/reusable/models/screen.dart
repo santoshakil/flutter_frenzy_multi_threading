@@ -1,3 +1,5 @@
+import 'package:flutter/material.dart';
+
 import '/src/helper/enum/enums.dart' show ScreenName;
 
 class ScreenData {
@@ -20,8 +22,12 @@ class PreviewData {
   final String? title;
   final String? des;
   final String? path;
+  final Widget? widget;
   const PreviewData(
-      {required this.title, required this.des, required this.path});
+      {required this.title,
+      required this.des,
+      required this.path,
+      this.widget});
 
   @override
   bool operator ==(Object other) {

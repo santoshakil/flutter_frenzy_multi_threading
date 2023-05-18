@@ -1,3 +1,5 @@
+import '../../image_processing/image_processing.dart' show LargeImageScreen;
+
 import '/src/helper/enum/enums.dart' show ScreenName;
 import '/src/modules/reusable/models/screen.dart' show ScreenData, PreviewData;
 
@@ -25,18 +27,17 @@ const alwaysAliveData = ScreenData(
   screenName: ScreenName.alwaysAlive,
   previewData: [
     PreviewData(title: null, des: 'Always Alive Thread', path: null),
+    PreviewData(title: 'Code Preview', des: null, path: null),
+    PreviewData(title: 'Error', des: null, path: null),
+    PreviewData(title: 'How can we fix this?', des: null, path: null)
+  ],
+);
+const imageProcessingData = ScreenData(
+  screenName: ScreenName.imageProcessing,
+  previewData: [
+    PreviewData(title: null, des: 'Image Processing', path: null),
+    PreviewData(title: 'Code Preview', des: null, path: null),
     PreviewData(
-        title: 'Code Preview',
-        des: null,
-        path: null),
-    PreviewData(
-        title: 'Error',
-        des:
-            null,
-        path: null),
-    PreviewData(
-        title: 'How can we fix this?',
-        des: null,
-        path:null)
+        title: 'Testing', des: null, path: null, widget: LargeImageScreen()),
   ],
 );

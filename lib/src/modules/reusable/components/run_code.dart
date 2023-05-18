@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_frenzy_multi_threading/src/modules/image_processing/providers/provider.dart';
 import '/src/modules/reusable/providers/threads/always_alive.dart'
     show parseToAlwaysAliveThread;
 import '/src/helper/enum/enums.dart' show IsolateType, ScreenName;
@@ -26,6 +27,11 @@ class RunCodeButton extends ConsumerWidget {
         } else if (ScreenName.alwaysAlive == selected) {
           await parseToAlwaysAliveThread(
               [IsolateType.write, 'Write Something in Always Alive Thread']);
+        } else if (ScreenName.imageProcessing == selected) {
+          ref.invalidate(loadingProvider('asyncImage'));
+          ref.invalidate(loadingProvider('threadImage'));
+          ref.invalidate(imgFileProvider('asyncImage'));
+          ref.invalidate(imgFileProvider('threadImage'));
         }
       },
       child: Center(

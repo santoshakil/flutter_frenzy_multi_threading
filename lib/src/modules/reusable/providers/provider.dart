@@ -12,7 +12,7 @@ final selectedScreenProvider =
 
 class _SelectedScreen extends Notifier<Screens> {
   @override
-  Screens build() => Screens.alwaysAlive;
+  Screens build() => Screens.imageProcessing;
 }
 
 final selectedButtonProvider =

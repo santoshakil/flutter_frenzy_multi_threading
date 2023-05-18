@@ -17,23 +17,30 @@ import 'package:flutter_riverpod/flutter_riverpod.dart'
 import 'package:path_provider/path_provider.dart'
     show getApplicationDocumentsDirectory;
 
+final loadingProvider =
+    NotifierProviderFamily<_Loading, bool, String>(_Loading.new);
+
+class _Loading extends FamilyNotifier<bool, String> {
+  @override
+  build(arg) => false;
+  void toggle() => state = !state;
+  void start() => state = true;
+  void stop() => state = false;
+}
+
 final imgFileProvider =
     NotifierProviderFamily<_ImgFile, File?, String>(_ImgFile.new);
 
 class _ImgFile extends FamilyNotifier<File?, String> {
- 
   @override
   File? build(String arg) => null;
 
- 
-
-  void setFile(File? file) =>
-    state = file;
- 
+  void setFile(File? file) => state = file;
 
   Future<File?> loadImg(WidgetRef ref, String path) async {
+    final loading = ref.read(loadingProvider(arg).notifier);
     try {
-    
+      loading.start();
       // final file = await assetsToFile(path);
       final assetData = await rootBundle.load(path);
       final Uint8List byteList = assetData.buffer.asUint8List();
@@ -48,10 +55,11 @@ class _ImgFile extends FamilyNotifier<File?, String> {
       imageFile = await imageFile.writeAsBytes(img.encodeJpg(image));
 
       log(imageFile.path.toString());
-
       setFile(imageFile);
     } catch (e) {
       log(e.toString());
+    } finally {
+      loading.stop();
     }
     return null;
   }
@@ -73,23 +81,32 @@ class _ImgFile extends FamilyNotifier<File?, String> {
   }
 
   Future<void> startThread(WidgetRef ref, String path) async {
-  
-    final receivePort = ReceivePort();
-    final file = await assetsToFile(path);
-    final isolate = await Isolate.spawn(
-      _doSomethingInIsolate,
-      [receivePort.sendPort, ServicesBinding.rootIsolateToken, file],
-      onExit: receivePort.sendPort,
-      onError: receivePort.sendPort,
-    );
-    isolate.addOnExitListener(receivePort.sendPort, response: 'Isolate exited');
-    receivePort.listen((message) {
-      final file = message as File;
-      log(file.path);
-
-      setFile(file);
-    });
-    debugPrint('Isolate Started:');
+    final loading = ref.read(loadingProvider(arg).notifier);
+    try {
+      loading.start();
+      final receivePort = ReceivePort();
+      final file = await assetsToFile(path);
+      final isolate = await Isolate.spawn(
+        _doSomethingInIsolate,
+        [receivePort.sendPort, ServicesBinding.rootIsolateToken, file],
+        onExit: receivePort.sendPort,
+        onError: receivePort.sendPort,
+      );
+      isolate.addOnExitListener(receivePort.sendPort,
+          response: 'Isolate exited');
+      receivePort.listen((message) {
+        if (message is String) return;
+        if (message is File) {
+          log(message.path);
+          loading.stop();
+          setFile(file);
+        }
+      });
+      debugPrint('Isolate Started:');
+    } catch (e) {
+      loading.stop();
+      log(e.toString());
+    }
   }
 }
 

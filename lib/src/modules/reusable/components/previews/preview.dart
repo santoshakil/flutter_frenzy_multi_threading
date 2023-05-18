@@ -33,7 +33,7 @@ class PreviewPanel extends ConsumerWidget {
                     );
                   }),
                 ),
-                _SharedPrefPreview(textTheme: textTheme),
+                _Preview(textTheme: textTheme),
               ],
             ),
           ),
@@ -43,11 +43,8 @@ class PreviewPanel extends ConsumerWidget {
   }
 }
 
-class _SharedPrefPreview extends ConsumerWidget {
-  const _SharedPrefPreview({
-    Key? key,
-    required this.textTheme,
-  }) : super(key: key);
+class _Preview extends ConsumerWidget {
+  const _Preview({Key? key, required this.textTheme}) : super(key: key);
 
   final TextTheme textTheme;
 
@@ -69,24 +66,25 @@ class _SharedPrefPreview extends ConsumerWidget {
               child: SizedBox(
                 width: ScreenSize.width,
                 height: ScreenSize.height,
-                child: e.path != null
-                    ? Image.asset(
-                        e.path!,
-                        fit: BoxFit.contain,
-                      )
-                    : Center(
-                        child: Padding(
-                          padding: const EdgeInsets.all(20),
-                          child: Text(
-                            e.des ?? '',
-                            textAlign: TextAlign.center,
-                            style: textTheme.labelLarge!.copyWith(
-                              fontSize: 35,
-                              color: e.title == 'Error' ? Colors.red : null,
+                child: e.widget ??
+                    (e.path != null
+                        ? Image.asset(
+                            e.path!,
+                            fit: BoxFit.contain,
+                          )
+                        : Center(
+                            child: Padding(
+                              padding: const EdgeInsets.all(20),
+                              child: Text(
+                                e.des ?? '',
+                                textAlign: TextAlign.center,
+                                style: textTheme.labelLarge!.copyWith(
+                                  fontSize: 35,
+                                  color: e.title == 'Error' ? Colors.red : null,
+                                ),
+                              ),
                             ),
-                          ),
-                        ),
-                      ),
+                          )),
               ),
             ),
           ),
