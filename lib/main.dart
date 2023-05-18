@@ -1,14 +1,25 @@
-import 'dart:ui';
-
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import 'src/main_app.dart' show MainApp;
-import 'src/modules/reusable/providers/threads/always_alive.dart'
-    show activeAlwaysAliveThread;
+import 'src/extensions/context.dart';
+import 'src/home/view/home.v.dart';
+import 'src/utils/utils.dart';
 
 Future<void> main() async {
-  DartPluginRegistrant.ensureInitialized();
   WidgetsFlutterBinding.ensureInitialized();
-  await activeAlwaysAliveThread();
-  runApp(const MainApp());
+  runApp(const ProviderScope(child: _App(key: Key('_App'))));
+}
+
+class _App extends StatelessWidget {
+  const _App({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      builder: (context, child) => MediaQuery(data: context.mq, child: child!),
+      debugShowCheckedModeBanner: false,
+      theme: defaultDarkTheme,
+      home: const HomeView(),
+    );
+  }
 }
