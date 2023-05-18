@@ -6,7 +6,8 @@ import '../../../../home/model/home.m.dart';
 final codePageControllerProvider =
     NotifierFamilyProvider.autoDispose<_PageNotifier, PageController, Modules>(_PageNotifier.new);
 final codePageIndexProvider = StateProvider.family.autoDispose<int, Modules>((_, __) => 0);
-// final timeTookProvider = StateProvider.family.autoDispose<int?, String>((_, __) => null);
+final executionRunningProvider = StateProvider.autoDispose((_) => false);
+final executionMessageProvider = StateProvider.autoDispose((_) => '');
 
 class _PageNotifier extends AutoDisposeFamilyNotifier<PageController, Modules> {
   @override
@@ -24,19 +25,16 @@ class _PageNotifier extends AutoDisposeFamilyNotifier<PageController, Modules> {
   Function get function => arg.codes.values.elementAt(index);
 
   void execute() async {
-    // final timer = Stopwatch()..start();
-    if (function is Future Function()) {
-      await function();
+    if (function is Future Function(Ref)) {
+      await function(ref);
     } else {
-      function();
+      function(ref);
     }
-    // timer.stop();
-    // ref.read(timeTookProvider(title).notifier).state = timer.elapsedMilliseconds;
-    // debugPrint('Execution time: ${timer.elapsedMilliseconds}ms');
   }
 
   Future<void> animateTo(int index) async {
     if (index == this.index) return;
+    ref.invalidate(executionMessageProvider);
     ref.read(codePageIndexProvider(arg).notifier).state = index;
     await state.animateToPage(index, duration: const Duration(milliseconds: 500), curve: Curves.easeInOut);
   }

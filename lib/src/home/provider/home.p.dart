@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import '../../modules/components/code/provider/code.p.dart';
 import '../model/home.m.dart';
 
 final pageControllerProvider = NotifierProvider<_PageNotifier, PageController>(_PageNotifier.new);
@@ -24,6 +25,8 @@ class _PageNotifier extends Notifier<PageController> {
   }
 
   void goTo(int index) {
+    if (index == this.index) return;
+    ref.invalidate(executionMessageProvider);
     state.jumpToPage(index);
     final title = index == 0 ? 'Welcome to Flutter Frenzy Multi-Threading' : Modules.values[index - 1].title;
     ref.read(pageIndicatorProvider.notifier).state = index;

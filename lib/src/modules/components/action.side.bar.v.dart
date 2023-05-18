@@ -29,20 +29,37 @@ class ActionSideBar extends ConsumerWidget {
               const SizedBox(height: 8),
               FilledButton.tonal(
                 onPressed: ref.read(codePageControllerProvider(module).notifier).execute,
-                child: const Text('Execute'),
+                child: Consumer(
+                  builder: (_, ref, __) {
+                    final running = ref.watch(executionRunningProvider);
+                    return running
+                        ? const Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Text('Executing'),
+                              SizedBox(width: 8),
+                              SizedBox(
+                                width: 16,
+                                height: 16,
+                                child: CircularProgressIndicator(),
+                              ),
+                            ],
+                          )
+                        : const Text('Execute');
+                  },
+                ),
               ),
-              // const SizedBox(height: 8),
-              // Consumer(
-              //   builder: (_, ref, __) {
-              //     ref.watch(codePageIndexProvider(module));
-              //     final function = ref.watch(codePageControllerProvider(module).notifier).title;
-              //     debugPrint('Function: $function');
-              //     final took = ref.watch(timeTookProvider(function));
-              //     if (took == null) return const SizedBox.shrink();
-              //     final tooks = took > 1000 ? '${took / 1000}s' : '${took}ms';
-              //     return Text('Took $tooks');
-              //   },
-              // ),
+              const SizedBox(height: 8),
+              Consumer(
+                builder: (_, ref, __) {
+                  ref.watch(codePageIndexProvider(module));
+                  final function = ref.watch(codePageControllerProvider(module).notifier).title;
+                  debugPrint('Function: $function');
+                  final executionMessage = ref.watch(executionMessageProvider);
+                  if (executionMessage.isEmpty) return const SizedBox.shrink();
+                  return Text(executionMessage);
+                },
+              ),
               const SizedBox(height: 8),
               if (child != null) ...[child!, const SizedBox(height: 8)],
               const Spacer(),
