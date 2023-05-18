@@ -3,7 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'src/extensions/context.dart';
 import 'src/home/view/home.v.dart';
-import 'src/utils/utils.dart';
+import 'src/utils/theme.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -17,9 +17,9 @@ class _App extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       builder: (context, child) => MediaQuery(data: context.mq, child: child!),
+      home: const HomeView(key: Key('HomeView')),
       debugShowCheckedModeBanner: false,
       theme: defaultDarkTheme,
-      home: const HomeView(),
     );
   }
 }
