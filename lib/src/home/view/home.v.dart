@@ -13,17 +13,18 @@ class HomeView extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     return Scaffold(
       appBar: AppBar(
-        leading: const Padding(padding: EdgeInsets.only(left: 10), child: AnimatedFlutter()),
+        leading: GestureDetector(
+          onTap: () async => await ref.read(pageControllerProvider.notifier).animateTo(0),
+          child: const Padding(
+            padding: EdgeInsets.only(left: 10),
+            child: AnimatedFlutter(),
+          ),
+        ),
         title: Consumer(
-          builder: (_, ref, __) {
-            return AnimatedSwitcher(
-              duration: const Duration(milliseconds: 300),
-              child: Text(
-                ref.watch(pageTitleProvider),
-                key: ValueKey(ref.watch(pageTitleProvider)),
-              ),
-            );
-          },
+          builder: (_, ref, __) => Text(
+            ref.watch(pageTitleProvider),
+            key: ValueKey(ref.watch(pageTitleProvider)),
+          ),
         ),
         actions: const [
           BackwardButton(key: Key('HomeIntroBackwardButton')),
@@ -90,6 +91,7 @@ class HomeIntroTile extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     return ListTile(
+      isThreeLine: true,
       tileColor: context.colors.onPrimary,
       leading: Text(
         (module.index + 1).toString(),
@@ -99,7 +101,7 @@ class HomeIntroTile extends ConsumerWidget {
         ),
       ),
       title: Text(module.title, style: context.text.headlineLarge),
-      subtitle: Text(module.description, style: context.text.titleMedium),
+      subtitle: Text(module.description, style: context.text.headlineSmall),
       onTap: () => ref.read(pageControllerProvider.notifier).animateTo(module.index + 1),
     );
   }
