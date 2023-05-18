@@ -17,6 +17,7 @@ class CodePreview extends ConsumerWidget {
     return Expanded(
       child: Card(
         child: PageView.builder(
+          physics: const NeverScrollableScrollPhysics(),
           controller: ref.watch(codePageControllerProvider(module)),
           itemCount: keys.length,
           itemBuilder: (context, index) {
