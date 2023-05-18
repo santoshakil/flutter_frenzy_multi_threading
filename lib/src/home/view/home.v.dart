@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_frenzy_multi_threading/src/extensions/context.dart';
 import 'package:flutter_frenzy_multi_threading/src/home/model/home.m.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:rive/rive.dart';
 
 import '../provider/home.p.dart';
 
@@ -12,25 +13,22 @@ class HomeView extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     return Scaffold(
       appBar: AppBar(
-        title: Row(
-          children: [
-            const BackwardButton(key: Key('HomeIntroBackwardButton')),
-            Expanded(
-              child: Consumer(
-                builder: (_, ref, __) {
-                  return AnimatedSwitcher(
-                    duration: const Duration(milliseconds: 300),
-                    child: Text(
-                      ref.watch(pageTitleProvider),
-                      key: ValueKey(ref.watch(pageTitleProvider)),
-                    ),
-                  );
-                },
+        leading: const Padding(padding: EdgeInsets.only(left: 10), child: AnimatedFlutter()),
+        title: Consumer(
+          builder: (_, ref, __) {
+            return AnimatedSwitcher(
+              duration: const Duration(milliseconds: 300),
+              child: Text(
+                ref.watch(pageTitleProvider),
+                key: ValueKey(ref.watch(pageTitleProvider)),
               ),
-            ),
-            const ForwardButton(key: Key('HomeIntroForwardButton')),
-          ],
+            );
+          },
         ),
+        actions: const [
+          BackwardButton(key: Key('HomeIntroBackwardButton')),
+          ForwardButton(key: Key('HomeIntroForwardButton')),
+        ],
       ),
       body: PageView(
         physics: const NeverScrollableScrollPhysics(),
@@ -40,6 +38,18 @@ class HomeView extends ConsumerWidget {
           for (final module in Modules.values) module.view,
         ],
       ),
+    );
+  }
+}
+
+class AnimatedFlutter extends StatelessWidget {
+  const AnimatedFlutter({super.key = const ValueKey('AnimatedFlutter')});
+
+  @override
+  Widget build(BuildContext context) {
+    return const RiveAnimation.asset(
+      'assets/icons/flutter.riv',
+      key: Key('FlutterRiveAnimation'),
     );
   }
 }
@@ -72,13 +82,13 @@ class HomeIntroView extends ConsumerWidget {
   }
 }
 
-class HomeIntroTile extends StatelessWidget {
+class HomeIntroTile extends ConsumerWidget {
   const HomeIntroTile({super.key, required this.module});
 
   final Modules module;
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     return ListTile(
       tileColor: context.colors.onPrimary,
       leading: Text(
@@ -90,7 +100,7 @@ class HomeIntroTile extends StatelessWidget {
       ),
       title: Text(module.title, style: context.text.headlineLarge),
       subtitle: Text(module.description, style: context.text.titleMedium),
-      onTap: () {},
+      onTap: () => ref.read(pageControllerProvider.notifier).animateTo(module.index + 1),
     );
   }
 }
@@ -100,8 +110,8 @@ class ForwardButton extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    return SizedBox(
-      width: 40,
+    return Padding(
+      padding: const EdgeInsets.only(right: 10),
       child: AnimatedSwitcher(
         duration: const Duration(milliseconds: 300),
         transitionBuilder: (child, animation) => ScaleTransition(scale: animation, child: child),
@@ -121,8 +131,8 @@ class BackwardButton extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    return SizedBox(
-      width: 40,
+    return Padding(
+      padding: const EdgeInsets.only(right: 10),
       child: AnimatedSwitcher(
         duration: const Duration(milliseconds: 300),
         transitionBuilder: (child, animation) => ScaleTransition(scale: animation, child: child),

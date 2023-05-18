@@ -4,7 +4,7 @@ publish_to: "none"
 version: 0.1.0
 
 environment:
-  sdk: '>=3.0.0 <4.0.0'
+  sdk: ">=3.0.0 <4.0.0"
 
 dependencies:
   flutter:
@@ -13,6 +13,7 @@ dependencies:
   google_fonts: ^4.0.4
   image: ^4.0.17
   path_provider: ^2.0.15
+  rive: ^0.11.0
   shared_preferences: ^2.1.1
 
 dev_dependencies:
@@ -24,7 +25,5 @@ flutter:
   uses-material-design: true
   assets:
     - assets/
-    - assets/images/ 
-    # - assets/icons/ 
-
-
+    - assets/images/
+    - assets/icons/
