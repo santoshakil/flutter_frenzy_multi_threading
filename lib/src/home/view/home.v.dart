@@ -14,7 +14,7 @@ class HomeView extends ConsumerWidget {
     return Scaffold(
       appBar: AppBar(
         leading: GestureDetector(
-          onTap: () async => await ref.read(pageControllerProvider.notifier).animateTo(0),
+          onTap: () => ref.read(pageControllerProvider.notifier).goTo(0),
           child: const Padding(
             padding: EdgeInsets.only(left: 10),
             child: AnimatedFlutter(),
@@ -102,7 +102,7 @@ class HomeIntroTile extends ConsumerWidget {
       ),
       title: Text(module.title, style: context.text.headlineLarge),
       subtitle: Text(module.description, style: context.text.headlineSmall),
-      onTap: () => ref.read(pageControllerProvider.notifier).animateTo(module.index + 1),
+      onTap: () => ref.read(pageControllerProvider.notifier).goTo(module.index + 1),
     );
   }
 }
@@ -120,7 +120,7 @@ class ForwardButton extends ConsumerWidget {
         child: ref.watch(pageIndicatorProvider) == Modules.values.length
             ? const SizedBox.shrink()
             : IconButton.filledTonal(
-                onPressed: ref.read(pageControllerProvider.notifier).animateToNext,
+                onPressed: ref.read(pageControllerProvider.notifier).goToNext,
                 icon: const Icon(Icons.arrow_forward),
               ),
       ),
@@ -141,7 +141,7 @@ class BackwardButton extends ConsumerWidget {
         child: ref.watch(pageIndicatorProvider) == 0
             ? const SizedBox.shrink()
             : IconButton.filledTonal(
-                onPressed: ref.read(pageControllerProvider.notifier).animateToPrevious,
+                onPressed: ref.read(pageControllerProvider.notifier).goToPrevious,
                 icon: const Icon(Icons.arrow_back),
               ),
       ),
