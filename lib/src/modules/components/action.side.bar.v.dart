@@ -6,14 +6,14 @@ import '../../extensions/context.dart';
 import '../../home/view/home.v.dart';
 import 'code/provider/code.p.dart';
 
-class ActionSideBar extends StatelessWidget {
+class ActionSideBar extends ConsumerWidget {
   const ActionSideBar({super.key, this.child, required this.module});
 
   final Widget? child;
   final Modules module;
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     return SizedBox(
       width: context.width * 0.2,
       child: Card(
@@ -28,13 +28,16 @@ class ActionSideBar extends StatelessWidget {
               ),
               const SizedBox(height: 8),
               FilledButton.tonal(
+                onPressed: ref.read(codePageControllerProvider(module).notifier).execute,
                 child: const Text('Execute'),
-                onPressed: () {},
               ),
               const SizedBox(height: 8),
               Consumer(
                 builder: (_, ref, __) {
-                  return const Text('Took X ms');
+                  final function = ref.watch(codePageControllerProvider(module).notifier).title;
+                  final took = ref.watch(timeTookProvider(function));
+                  if (took == null) return const SizedBox.shrink();
+                  return Text('Took ${took}ms');
                 },
               ),
               const SizedBox(height: 8),
