@@ -58,7 +58,12 @@ class HomeIntroView extends ConsumerWidget {
           (index) {
             final module = Modules.values[index];
             return Expanded(
-              child: HomeIntroTile(key: ValueKey(module), module: module),
+              child: Column(
+                children: [
+                  Expanded(child: HomeIntroTile(key: ValueKey(module), module: module)),
+                  if (index != Modules.values.length - 1) const SizedBox(height: 10),
+                ],
+              ),
             );
           },
         ),
@@ -74,25 +79,18 @@ class HomeIntroTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final padding = context.width * 0.02;
-    return Card(
-      child: Padding(
-        padding: EdgeInsets.symmetric(horizontal: padding, vertical: padding * 0.7),
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          mainAxisAlignment: MainAxisAlignment.center,
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: [
-            Text(module.title, style: context.text.headlineLarge),
-            const SizedBox(height: 10),
-            Text(
-              module.description,
-              style: context.text.titleMedium,
-              overflow: TextOverflow.ellipsis,
-            ),
-          ],
+    return ListTile(
+      tileColor: context.colors.onPrimary,
+      leading: Text(
+        (module.index + 1).toString(),
+        style: context.text.headlineLarge!.copyWith(
+          color: context.colors.primary,
+          fontWeight: FontWeight.w900,
         ),
       ),
+      title: Text(module.title, style: context.text.headlineLarge),
+      subtitle: Text(module.description, style: context.text.titleMedium),
+      onTap: () {},
     );
   }
 }
