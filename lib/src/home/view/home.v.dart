@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_frenzy_multi_threading/src/extensions/context.dart';
-import 'package:flutter_frenzy_multi_threading/src/home/model/home.m.dart';
+
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:rive/rive.dart';
 
+import '../../extensions/context.dart';
+import '../model/home.m.dart';
 import '../provider/home.p.dart';
 
 class HomeView extends ConsumerWidget {

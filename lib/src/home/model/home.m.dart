@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_frenzy_multi_threading/src/modules/compute/view/compute.v.dart';
-import 'package:flutter_frenzy_multi_threading/src/modules/ffi/view/ffi.v.dart';
-import 'package:flutter_frenzy_multi_threading/src/modules/isolate/view/isolate.v.dart';
-import 'package:flutter_frenzy_multi_threading/src/modules/synchronization/view/synchronization.v.dart';
 
+import '../../modules/compute/view/compute.v.dart';
+import '../../modules/ffi/view/ffi.v.dart';
+import '../../modules/isolate/view/isolate.v.dart';
 import '../../modules/persistant/view/persistant.v.dart';
+import '../../modules/synchronization/view/synchronization.v.dart';
 
 enum Modules {
   compute(
