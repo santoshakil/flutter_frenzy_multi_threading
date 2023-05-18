@@ -26,12 +26,14 @@ class HomeView extends ConsumerWidget {
         ),
       ),
       body: PageView(
+        physics: const NeverScrollableScrollPhysics(),
         controller: ref.watch(pageControllerProvider),
         children: [
           const HomeIntroView(key: Key('HomeIntroView')),
           for (final module in Modules.values) module.view,
         ],
       ),
+      floatingActionButton: const HomeIntroFloatingButton(key: Key('HomeIntroFloatingButton')),
     );
   }
 }
@@ -41,12 +43,20 @@ class HomeIntroView extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    return ListView.builder(
-      itemCount: Modules.values.length,
-      itemBuilder: (_, index) {
-        final module = Modules.values[index];
-        return HomeIntroTile(key: ValueKey(module), module: module);
-      },
+    final padding = context.width * 0.05;
+    return Padding(
+      padding: EdgeInsets.fromLTRB(padding, 16, padding, padding),
+      child: Column(
+        children: List.generate(
+          Modules.values.length,
+          (index) {
+            final module = Modules.values[index];
+            return Expanded(
+              child: HomeIntroTile(key: ValueKey(module), module: module),
+            );
+          },
+        ),
+      ),
     );
   }
 }
@@ -60,19 +70,56 @@ class HomeIntroTile extends StatelessWidget {
   Widget build(BuildContext context) {
     final padding = context.width * 0.02;
     return Card(
-      margin: EdgeInsets.fromLTRB(padding, padding * 0.7, padding, 0),
       child: Padding(
         padding: EdgeInsets.all(padding),
         child: Column(
           mainAxisSize: MainAxisSize.min,
-          crossAxisAlignment: CrossAxisAlignment.start,
+          crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
             Text(module.title, style: context.text.headlineLarge),
             const SizedBox(height: 10),
-            Text(module.description, style: context.text.titleMedium),
+            Text(
+              module.description,
+              style: context.text.titleMedium,
+              overflow: TextOverflow.ellipsis,
+            ),
           ],
         ),
       ),
+    );
+  }
+}
+
+class HomeIntroFloatingButton extends ConsumerWidget {
+  const HomeIntroFloatingButton({super.key});
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.end,
+      children: [
+        AnimatedSwitcher(
+          duration: const Duration(milliseconds: 300),
+          transitionBuilder: (child, animation) => ScaleTransition(scale: animation, child: child),
+          child: ref.watch(pageIndicatorProvider) == 0
+              ? const SizedBox.shrink()
+              : FloatingActionButton(
+                  onPressed: ref.read(pageControllerProvider.notifier).animateToPrevious,
+                  child: const Icon(Icons.arrow_back),
+                ),
+        ),
+        const SizedBox(width: 10),
+        AnimatedSwitcher(
+          duration: const Duration(milliseconds: 300),
+          transitionBuilder: (child, animation) => ScaleTransition(scale: animation, child: child),
+          child: ref.watch(pageIndicatorProvider) == Modules.values.length
+              ? const SizedBox.shrink()
+              : FloatingActionButton(
+                  onPressed: ref.read(pageControllerProvider.notifier).animateToNext,
+                  child: const Icon(Icons.arrow_forward),
+                ),
+        ),
+      ],
     );
   }
 }
