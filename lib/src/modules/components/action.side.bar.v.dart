@@ -34,10 +34,13 @@ class ActionSideBar extends ConsumerWidget {
               const SizedBox(height: 8),
               Consumer(
                 builder: (_, ref, __) {
+                  ref.watch(codePageIndexProvider(module));
                   final function = ref.watch(codePageControllerProvider(module).notifier).title;
+                  debugPrint('Function: $function');
                   final took = ref.watch(timeTookProvider(function));
                   if (took == null) return const SizedBox.shrink();
-                  return Text('Took ${took}ms');
+                  final tooks = took > 1000 ? '${took / 1000}s' : '${took}ms';
+                  return Text('Took $tooks');
                 },
               ),
               const SizedBox(height: 8),

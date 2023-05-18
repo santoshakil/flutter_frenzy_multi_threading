@@ -16,7 +16,8 @@ class _PageNotifier extends AutoDisposeFamilyNotifier<PageController, Modules> {
     return controller;
   }
 
-  int get index => state.hasClients ? state.page?.toInt() ?? 0 : 0;
+  // int get index => state.hasClients ? state.page?.toInt() ?? 0 : 0;
+  int get index => ref.read(codePageIndexProvider(arg));
 
   String get title => arg.codes.keys.elementAt(index);
 
