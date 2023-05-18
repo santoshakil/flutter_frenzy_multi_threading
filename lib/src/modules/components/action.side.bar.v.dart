@@ -1,12 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_frenzy_multi_threading/src/home/model/home.m.dart';
 
 import '../../extensions/context.dart';
 import '../../home/view/home.v.dart';
 
 class ActionSideBar extends StatelessWidget {
-  const ActionSideBar({super.key, this.child});
+  const ActionSideBar({super.key, this.child, required this.module});
 
   final Widget? child;
+  final Modules module;
 
   @override
   Widget build(BuildContext context) {

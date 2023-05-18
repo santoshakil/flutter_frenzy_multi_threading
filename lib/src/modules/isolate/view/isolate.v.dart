@@ -14,7 +14,7 @@ class IsolateView extends ConsumerWidget {
     return const Row(
       children: [
         CodePreview(module: Modules.isolate),
-        ActionSideBar(),
+        ActionSideBar(module: Modules.isolate),
       ],
     );
   }

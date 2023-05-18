@@ -17,6 +17,8 @@ class _PageNotifier extends FamilyNotifier<PageController, Modules> {
 
   String get title => arg.codes.keys.elementAt(index);
 
+  Function get function => arg.codes.values.elementAt(index);
+
   Future<void> animateTo(int index) async =>
       await state.animateToPage(index, duration: const Duration(milliseconds: 500), curve: Curves.easeInOut);
 

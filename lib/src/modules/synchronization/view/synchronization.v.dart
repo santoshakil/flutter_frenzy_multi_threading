@@ -14,7 +14,7 @@ class SynchronizationView extends ConsumerWidget {
     return const Row(
       children: [
         CodePreview(module: Modules.synchronization),
-        ActionSideBar(),
+        ActionSideBar(module: Modules.synchronization),
       ],
     );
   }

@@ -13,7 +13,7 @@ class ComputeView extends ConsumerWidget {
     return const Row(
       children: [
         CodePreview(module: Modules.compute),
-        ActionSideBar(),
+        ActionSideBar(module: Modules.compute),
       ],
     );
   }

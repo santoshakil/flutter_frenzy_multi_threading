@@ -14,7 +14,7 @@ class FFIView extends ConsumerWidget {
     return const Row(
       children: [
         CodePreview(module: Modules.ffi),
-        ActionSideBar(),
+        ActionSideBar(module: Modules.ffi),
       ],
     );
   }

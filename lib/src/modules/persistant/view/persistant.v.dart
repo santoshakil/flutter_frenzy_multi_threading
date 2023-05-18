@@ -14,7 +14,7 @@ class PersistantView extends ConsumerWidget {
     return const Row(
       children: [
         CodePreview(module: Modules.persistent),
-        ActionSideBar(),
+        ActionSideBar(module: Modules.persistent),
       ],
     );
   }
