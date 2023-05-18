@@ -4,11 +4,11 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../model/home.m.dart';
 
-final pageControllerProvider = NotifierProvider<PageNotifier, PageController>(PageNotifier.new);
+final pageControllerProvider = NotifierProvider<_PageNotifier, PageController>(_PageNotifier.new);
 final pageTitleProvider = StateProvider((_) => 'Welcome to Flutter Frenzy Multi-Threading');
 final pageIndicatorProvider = StateProvider((_) => 0);
 
-class PageNotifier extends Notifier<PageController> {
+class _PageNotifier extends Notifier<PageController> {
   @override
   PageController build() {
     final controller = PageController();

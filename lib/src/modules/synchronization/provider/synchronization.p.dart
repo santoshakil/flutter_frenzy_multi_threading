@@ -1,0 +1,3 @@
+void withoutSynchronization() {}
+
+void wihtSynchronization() {}
