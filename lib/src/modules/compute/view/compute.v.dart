@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_frenzy_multi_threading/src/extensions/context.dart';
-import 'package:flutter_frenzy_multi_threading/src/home/view/home.v.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../components/action.side.bar.v.dart';
