@@ -22,8 +22,12 @@ class PageNotifier extends Notifier<PageController> {
     return Modules.values[index - 1].title;
   }
 
-  Future<void> animateTo(int index) async =>
-      await state.animateToPage(index, duration: const Duration(milliseconds: 300), curve: Curves.easeInOut);
+  Future<void> animateTo(int index) async {
+    await state.animateToPage(index, duration: const Duration(milliseconds: 300), curve: Curves.easeInOut);
+    final title = index == 0 ? 'Welcome to Flutter Frenzy Multi-Threading' : Modules.values[index - 1].title;
+    ref.read(pageIndicatorProvider.notifier).state = index;
+    ref.read(pageTitleProvider.notifier).state = title;
+  }
 
   Future<void> animateToNext() async {
     if (index == Modules.values.length) return;
