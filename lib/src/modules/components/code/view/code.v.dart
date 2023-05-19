@@ -40,8 +40,9 @@ class CodePreview extends ConsumerWidget {
                 Expanded(
                   child: Image.asset(
                     'assets/images/${(code.isNotEmpty ? code : module.title).snackCase}.png',
+                    filterQuality: FilterQuality.high,
                     key: ValueKey('CodePreview$code'),
-                    fit: BoxFit.cover,
+                    fit: BoxFit.contain,
                   ),
                 ),
               ],
