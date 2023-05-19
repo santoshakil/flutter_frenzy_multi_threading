@@ -43,6 +43,7 @@ class CodePreview extends ConsumerWidget {
                     filterQuality: FilterQuality.high,
                     key: ValueKey('CodePreview$code'),
                     fit: BoxFit.contain,
+                    isAntiAlias: true,
                   ),
                 ),
               ],
