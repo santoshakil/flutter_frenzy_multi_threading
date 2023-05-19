@@ -4,7 +4,7 @@
 
 #### Youtube : https://www.youtube.com/watch?v=k8_I0Atn3hc&t=5256s
 
- <img src="assets\images\screenshots\welcome.png" alt="Screenshot 1" width="800" height="450">
+ <img src="assets\images\screenshots\thankyou.png" alt="Screenshot 1" width="800" height="450">
  <img src="assets\images\screenshots\menu.png" alt="Screenshot 2" width="800" height="450">
  
 <div class="row"> 
@@ -27,4 +27,4 @@
   <img src="assets\images\screenshots\ffi.png" alt="Screenshot 3" width="263" height="150">
 </div> 
 
-<img src="assets\images\screenshots\thankyou.png" alt="Screenshot 20" width="800" height="450">
+<img src="assets\images\screenshots\welcome.png" alt="Screenshot 20" width="800" height="450">
