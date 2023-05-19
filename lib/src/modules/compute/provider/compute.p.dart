@@ -5,19 +5,17 @@ import '../../components/code/provider/code.p.dart';
 
 void withoutCompute(Ref ref) {
   ref.read(executionRunningProvider.notifier).state = true;
-  final timer = Stopwatch()..start();
+  ref.read(executionMessageProvider.notifier).state = 'Iterating 10 billion times...';
   _compute();
-  timer.stop();
-  ref.read(executionMessageProvider.notifier).state = 'Took: ${timer.elapsedMilliseconds}ms';
+  ref.read(executionMessageProvider.notifier).state = 'Iterated 10 billion times!!!';
   ref.read(executionRunningProvider.notifier).state = false;
 }
 
 Future<void> withCompute(Ref ref) async {
   ref.read(executionRunningProvider.notifier).state = true;
-  final timer = Stopwatch()..start();
+  ref.read(executionMessageProvider.notifier).state = 'Iterating 10 billion times...';
   await compute(_compute, 0);
-  timer.stop();
-  ref.read(executionMessageProvider.notifier).state = 'Took: ${timer.elapsedMilliseconds}ms';
+  ref.read(executionMessageProvider.notifier).state = 'Iterated 10 billion times!!!';
   ref.read(executionRunningProvider.notifier).state = false;
 }
 

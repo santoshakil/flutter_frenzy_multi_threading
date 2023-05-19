@@ -12,16 +12,15 @@ import '../../components/code/provider/code.p.dart';
 
 void withoutIsolate(Ref ref) async {
   ref.read(executionRunningProvider.notifier).state = true;
-  final timer = Stopwatch()..start();
+  ref.read(executionMessageProvider.notifier).state = 'Processing image...';
   await _task(await rootBundle.load('assets/images/IMG_20230514_215912.jpg'));
-  timer.stop();
-  ref.read(executionMessageProvider.notifier).state = 'Took: ${timer.elapsedMilliseconds}ms';
+  ref.read(executionMessageProvider.notifier).state = 'Image processed!!!';
   ref.read(executionRunningProvider.notifier).state = false;
 }
 
 Future<void> withIsolate(Ref ref) async {
   ref.read(executionRunningProvider.notifier).state = true;
-  final timer = Stopwatch()..start();
+  ref.read(executionMessageProvider.notifier).state = 'Processing image...';
   final port = ReceivePort();
   final isolate = await Isolate.spawn(
     (v) async {
@@ -38,8 +37,7 @@ Future<void> withIsolate(Ref ref) async {
   );
   await port.first;
   isolate.kill();
-  timer.stop();
-  ref.read(executionMessageProvider.notifier).state = 'Took: ${timer.elapsedMilliseconds}ms';
+  ref.read(executionMessageProvider.notifier).state = 'Image processed!!!';
   ref.read(executionRunningProvider.notifier).state = false;
 }
 
