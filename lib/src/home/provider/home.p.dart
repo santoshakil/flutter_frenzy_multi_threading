@@ -20,21 +20,26 @@ class _PageNotifier extends Notifier<PageController> {
   int get index => state.hasClients ? state.page!.toInt() : 0;
 
   String get title {
-    if (index == 0) return 'Welcome to Flutter Frenzy Multi-Threading';
-    return Modules.values[index - 1].title;
+    if (index == 0 || index == 1) return 'Welcome to Flutter Frenzy Multi-Threading';
+    if (index == Modules.values.length + 2) return 'Thank you for joining us!';
+    return Modules.values[index - 2].title;
   }
 
   void goTo(int index) {
     if (index == this.index) return;
     ref.invalidate(executionMessageProvider);
     state.jumpToPage(index);
-    final title = index == 0 ? 'Welcome to Flutter Frenzy Multi-Threading' : Modules.values[index - 1].title;
+    final title = index == 0 || index == 1
+        ? 'Welcome to Flutter Frenzy Multi-Threading'
+        : index == Modules.values.length + 2
+            ? 'Thank you for joining us!'
+            : Modules.values[index - 2].title;
     ref.read(pageIndicatorProvider.notifier).state = index;
     ref.read(pageTitleProvider.notifier).state = title;
   }
 
   void goToNext() {
-    if (index == Modules.values.length) return;
+    if (index == Modules.values.length + 2) return;
     goTo(index + 1);
     ref.read(pageTitleProvider.notifier).state = title;
     ref.read(pageIndicatorProvider.notifier).state = index;

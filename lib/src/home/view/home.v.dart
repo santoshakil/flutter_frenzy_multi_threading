@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
-
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:rive/rive.dart';
 
 import '../../extensions/context.dart';
 import '../model/home.m.dart';
 import '../provider/home.p.dart';
+import 'thankyou.v.dart';
+import 'welcome.v.dart';
 
 class HomeView extends ConsumerWidget {
   const HomeView({super.key});
@@ -36,8 +37,10 @@ class HomeView extends ConsumerWidget {
         physics: const NeverScrollableScrollPhysics(),
         controller: ref.watch(pageControllerProvider),
         children: [
+          const WelComeView(key: Key('WelComeView')),
           const HomeIntroView(key: Key('HomeIntroView')),
           for (final module in Modules.values) module.view,
+          const ThankYouView(key: Key('ThankYouView')),
         ],
       ),
     );
@@ -95,7 +98,7 @@ class HomeIntroTile extends ConsumerWidget {
       isThreeLine: true,
       tileColor: context.colors.onPrimary,
       leading: Text(
-        (module.index + 1).toString(),
+        (module.index + 2).toString(),
         style: context.text.headlineLarge!.copyWith(
           color: context.colors.primary,
           fontWeight: FontWeight.w900,
@@ -118,7 +121,7 @@ class ForwardButton extends ConsumerWidget {
       child: AnimatedSwitcher(
         duration: const Duration(milliseconds: 300),
         transitionBuilder: (child, animation) => ScaleTransition(scale: animation, child: child),
-        child: ref.watch(pageIndicatorProvider) == Modules.values.length
+        child: ref.watch(pageIndicatorProvider) == Modules.values.length + 2
             ? const SizedBox.shrink()
             : IconButton.filledTonal(
                 onPressed: ref.read(pageControllerProvider.notifier).goToNext,
