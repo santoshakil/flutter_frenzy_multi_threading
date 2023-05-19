@@ -27,10 +27,9 @@ void openPersistantThread(Ref ref) async {
   ref.read(executionRunningProvider.notifier).state = false;
 
   await for (final v in receivePort) {
-    ref.read(executionRunningProvider.notifier).state = true;
+    if (v is bool) ref.read(executionRunningProvider.notifier).state = v;
     if (v is String) ref.read(executionMessageProvider.notifier).state = v;
     if (v is SendPort) sendPort = v;
-    ref.read(executionRunningProvider.notifier).state = false;
     if (v == 'EXIT') {
       isolate.kill();
       sendPort = null;
@@ -89,20 +88,24 @@ void _persistantThread(SendPort p) async {
     debugPrint(now.toString());
 
     if (v is int) {
+      sendPort!.send(true);
       sendPort!.send('$now\nIterating $v times in persistant thread...');
       int x = 0;
       for (var i = 0; i < v; i++) {
         x++;
       }
       sendPort!.send('$now\nIterated $x times in persistant thread');
+      sendPort!.send(false);
     }
 
     if (v is (ByteData, RootIsolateToken)) {
+      sendPort!.send(true);
       sendPort!.send('$now\nProcessing image in persistant thread...');
       DartPluginRegistrant.ensureInitialized();
       BackgroundIsolateBinaryMessenger.ensureInitialized(v.$2);
       await processImageFromByteData(v.$1);
       sendPort!.send('$now\nImage processed in persistant thread!!!');
+      sendPort!.send(false);
     }
   });
 }

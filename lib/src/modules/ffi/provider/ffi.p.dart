@@ -26,7 +26,11 @@ void ffiFuntion(Ref ref) async {
   final picker = FilePicker.platform;
   final sourcePath = await picker.getDirectoryPath();
   final destinationPath = await picker.getDirectoryPath();
-  if (sourcePath == null || destinationPath == null) return;
+  if (sourcePath == null || destinationPath == null) {
+    ref.read(executionRunningProvider.notifier).state = false;
+    ref.read(executionMessageProvider.notifier).state = 'No path selected';
+    return;
+  }
 
   final binaryFile = File('${(await getApplicationDocumentsDirectory()).path}/librust_dir_watcher.dylib');
   final binaryByteData = await rootBundle.load(binaryPath);
