@@ -13,7 +13,7 @@ import '../../components/code/provider/code.p.dart';
 void withoutIsolate(Ref ref) async {
   ref.read(executionRunningProvider.notifier).state = true;
   ref.read(executionMessageProvider.notifier).state = 'Processing image...';
-  await _task(await rootBundle.load('assets/images/IMG_20230514_215912.jpg'));
+  await processImageFromByteData(await rootBundle.load('assets/images/IMG_20230514_215912.jpg'));
   ref.read(executionMessageProvider.notifier).state = 'Image processed!!!';
   ref.read(executionRunningProvider.notifier).state = false;
 }
@@ -26,7 +26,7 @@ Future<void> withIsolate(Ref ref) async {
     (v) async {
       DartPluginRegistrant.ensureInitialized();
       BackgroundIsolateBinaryMessenger.ensureInitialized(v.$2);
-      await _task(v.$1);
+      await processImageFromByteData(v.$1);
       v.$3.send(true);
     },
     (
@@ -41,7 +41,7 @@ Future<void> withIsolate(Ref ref) async {
   ref.read(executionRunningProvider.notifier).state = false;
 }
 
-Future<void> _task(ByteData? byteData) async {
+Future<void> processImageFromByteData(ByteData? byteData) async {
   try {
     final image = byteData ?? await rootBundle.load('assets/images/IMG_20230514_215912.jpg');
     Uint8List imageData = image.buffer.asUint8List();

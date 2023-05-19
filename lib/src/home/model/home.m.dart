@@ -28,7 +28,11 @@ enum Modules {
     'Persistant Thread',
     'Allows you to persist threads, which can be useful for running long-running heavy tasks without having to recreate them every time.',
     PersistantView(key: Key('persistantView')),
-    {"": persistantThreadFuntion},
+    {
+      "Open Persistant Thread": openPersistantThread,
+      "Push Int To Persistant Thread": pushIntToPersistantThread,
+      "Push ByteData To Persistant Thread": pushByteDataToPersistantThread,
+    },
   ),
   synchronization(
     'Synchronization',
