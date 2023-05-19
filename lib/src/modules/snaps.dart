@@ -113,3 +113,33 @@ void wihtSynchronization(Ref ref) async {
 
 // ........................................................................... //
 
+// typedef HashPathFFI = Pointer<Utf8> Function(Pointer<Utf8> sourcePath, Pointer<Utf8> destinationPath);
+
+// void ffiFuntion(Ref ref) async {
+//   // .... //
+//   final isolate = await Isolate.spawn(
+//     (v) {
+//       final ffi = DynamicLibrary.open(v.$1);
+//       final hashPathFFI = ffi.lookupFunction<HashPathFFI, HashPathFFI>('hash_path_ffi');
+//       final result = hashPathFFI(sourcePathPointer, destinationPathPointer);
+//       calloc.free(sourcePathPointer);
+//       // .... //
+//     },
+//     (binaryFile.path, receivePort.sendPort),
+//   );
+//   // .... //
+// }
+
+// #[no_mangle]
+// pub extern "C" fn hash_path_ffi(source_path: *const c_char, destination_path: *const c_char) -> *const c_char {
+//     // .... //
+//     let (sender, receiver) = channel::<HashSet<(String, String)>>();
+//     let sender_clone = sender.clone();
+//     _ = thread::spawn(move || { .... });
+
+//     let source_thread = thread::spawn(move || hash_path(&source_path, sender));
+//     let dest_thread = thread::spawn(move || hash_path(&dest_path, sender_clone));
+
+//     _ = source_thread.join().unwrap().unwrap();
+//     // .... //
+// }
