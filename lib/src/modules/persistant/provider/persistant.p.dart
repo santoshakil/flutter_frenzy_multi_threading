@@ -26,8 +26,10 @@ void openPersistantThread(Ref ref) async {
   ref.read(executionRunningProvider.notifier).state = false;
 
   await for (final v in receivePort) {
+    ref.read(executionRunningProvider.notifier).state = true;
     if (v is String) ref.read(executionMessageProvider.notifier).state = v;
     if (v is SendPort) sendPort = v;
+    ref.read(executionRunningProvider.notifier).state = false;
     if (v == 'EXIT') {
       isolate.kill();
       sendPort = null;
