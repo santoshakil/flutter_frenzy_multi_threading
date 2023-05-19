@@ -33,6 +33,7 @@ flutter:
     - assets/images/
     - assets/icons/
     - assets/bin/
+    - assets/images/screenshots/
 
 import_sorter:
   comments: false
