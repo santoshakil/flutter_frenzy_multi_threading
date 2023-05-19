@@ -13,14 +13,13 @@ import '../../components/code/provider/code.p.dart';
 
 const binaryPath = 'assets/bin/librust_dir_watcher.dylib';
 
-final receivePort = ReceivePort();
-
 typedef HashPathFFI = Pointer<Utf8> Function(
   Pointer<Utf8> sourcePath,
   Pointer<Utf8> destinationPath,
 );
 
 void ffiFuntion(Ref ref) async {
+  final receivePort = ReceivePort();
   ref.read(executionRunningProvider.notifier).state = true;
   ref.read(executionMessageProvider.notifier).state = 'Hashing files...';
   final picker = FilePicker.platform;
