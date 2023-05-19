@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_frenzy_multi_threading/src/home/model/home.m.dart';
+
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../extensions/context.dart';
+import '../../home/model/home.m.dart';
 import '../../home/view/home.v.dart';
 import 'code/provider/code.p.dart';
 

@@ -1,7 +1,9 @@
 import 'package:flutter/foundation.dart';
-import 'package:flutter_frenzy_multi_threading/src/modules/components/code/provider/code.p.dart';
+
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:synchronized/synchronized.dart';
+
+import '../../components/code/provider/code.p.dart';
 
 final _lock = Lock();
 

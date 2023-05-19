@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_frenzy_multi_threading/src/extensions/context.dart';
-import 'package:flutter_frenzy_multi_threading/src/extensions/string.dart';
-import 'package:flutter_frenzy_multi_threading/src/home/model/home.m.dart';
+
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import '../../../../extensions/context.dart';
+import '../../../../extensions/string.dart';
+import '../../../../home/model/home.m.dart';
 import '../provider/code.p.dart';
 
 class CodePreview extends ConsumerWidget {

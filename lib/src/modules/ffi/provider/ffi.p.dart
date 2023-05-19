@@ -2,12 +2,14 @@ import 'dart:ffi';
 import 'dart:io';
 import 'dart:isolate';
 
+import 'package:flutter/services.dart';
+
 import 'package:ffi/ffi.dart';
 import 'package:file_picker/file_picker.dart';
-import 'package:flutter/services.dart';
-import 'package:flutter_frenzy_multi_threading/src/modules/components/code/provider/code.p.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:path_provider/path_provider.dart';
+
+import '../../components/code/provider/code.p.dart';
 
 const binaryPath = 'assets/bin/librust_dir_watcher.dylib';
 
