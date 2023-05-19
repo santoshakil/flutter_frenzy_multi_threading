@@ -7,16 +7,34 @@ environment:
   sdk: ">=3.0.0 <4.0.0"
 
 dependencies:
+  ffi: ^2.0.2
+  file_picker: ^5.3.0
   flutter:
     sdk: flutter
+  flutter_riverpod: ^2.3.6
+  google_fonts: ^4.0.4
+  image: ^4.0.17
+  path_provider: ^2.0.15
+  rive: ^0.11.0
+  shared_preferences: ^2.1.1
+  synchronized: ^3.1.0
+  url_launcher: ^6.1.11
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
   flutter_lints: ^2.0.1
+  import_sorter: ^4.6.0
 
 flutter:
   uses-material-design: true
+  assets:
+    - assets/
+    - assets/images/
+    - assets/icons/
+    - assets/bin/
 
-assets:
-  - assets/
+import_sorter:
+  comments: false
+  # ignored_files:
+  #   - \/lib\/*

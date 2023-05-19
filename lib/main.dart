@@ -4,52 +4,27 @@ import 'package:flutter_frenzy_multi_threading/utils/light.theme.dart';
 
 import 'enum/task.dart';
 
-void main() {
-  runApp(const MainApp());
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+
+import 'src/extensions/context.dart';
+import 'src/home/view/home.v.dart';
+import 'src/utils/theme.dart';
+
+Future<void> main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  runApp(const ProviderScope(child: _App(key: Key('_App'))));
 }
 
-class MainApp extends StatelessWidget {
-  const MainApp({super.key});
+class _App extends StatelessWidget {
+  const _App({super.key});
 
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      builder: (context, child) => MediaQuery(data: context.mq, child: child!),
+      home: const HomeView(key: Key('HomeView')),
       debugShowCheckedModeBanner: false,
-      theme: lightTheme,
-      home: Scaffold(
-        body: SafeArea(
-          child: Padding(
-            padding: const EdgeInsets.all(6.0),
-            child: DefaultTabController(
-              length: Tasks.values.length,
-              child: NestedScrollView(
-                headerSliverBuilder: (_, __) => [
-                  SliverToBoxAdapter(
-                    child: TabBar(
-                      splashBorderRadius: borderRadius30,
-                      isScrollable: true,
-                      physics: const BouncingScrollPhysics(),
-                      labelStyle: Theme.of(context).textTheme.labelLarge,
-                      tabs: List.generate(
-                        Tasks.values.length,
-                        (index) => Tab(
-                          child: Text(Tasks.values[index].title),
-                        ),
-                      ),
-                    ),
-                  ),
-                ],
-                body: TabBarView(
-                  children: List.generate(
-                    Tasks.values.length,
-                    (index) => Tasks.values[index].view,
-                  ),
-                ),
-              ),
-            ),
-          ),
-        ),
-      ),
+      theme: defaultDarkTheme,
     );
   }
 }
