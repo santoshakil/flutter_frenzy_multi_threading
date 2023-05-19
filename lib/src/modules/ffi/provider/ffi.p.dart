@@ -8,7 +8,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:path_provider/path_provider.dart';
 
-const binaryPath = 'assets/bin/dir_watch_mac';
+const binaryPath = 'assets/bin/librust_dir_watcher.dylib';
 
 typedef HashPathFFI = Pointer<Utf8> Function(
   Pointer<Utf8> sourcePath,
@@ -21,9 +21,7 @@ void ffiFuntion(Ref ref) async {
   final destinationPath = await picker.getDirectoryPath();
   if (sourcePath == null || destinationPath == null) return;
 
-  final binaryFile = File('${(await getApplicationDocumentsDirectory()).path}/dir_watch_mac');
-  await binaryFile.delete();
-  await binaryFile.create(recursive: true);
+  final binaryFile = File('${(await getApplicationDocumentsDirectory()).path}/librust_dir_watcher.dylib');
   final binaryByteData = await rootBundle.load(binaryPath);
   final binary = binaryByteData.buffer.asUint8List();
   await binaryFile.writeAsBytes(binary);
