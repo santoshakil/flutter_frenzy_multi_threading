@@ -1,6 +1,7 @@
 import 'dart:isolate';
 import 'dart:ui';
 
+import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -11,6 +12,11 @@ final receivePort = ReceivePort();
 SendPort? sendPort;
 
 void openPersistantThread(Ref ref) async {
+  if (sendPort != null) {
+    ref.read(executionMessageProvider.notifier).state = 'Persistant thread already opened!!!';
+    return;
+  }
+
   ref.read(executionRunningProvider.notifier).state = true;
   ref.read(executionMessageProvider.notifier).state = 'Opening persistant thread...';
 
@@ -24,13 +30,19 @@ void openPersistantThread(Ref ref) async {
     if (v is SendPort) sendPort = v;
     if (v == 'EXIT') {
       isolate.kill();
+      sendPort = null;
+      ref.read(executionMessageProvider.notifier).state = 'Persistant thread closed!!!';
       break;
     }
   }
 }
 
 void pushIntToPersistantThread(Ref ref) {
-  sendPort!.send(10000000000);
+  if (sendPort == null) {
+    ref.read(executionMessageProvider.notifier).state = 'Persistant thread not opened!!!';
+    return;
+  }
+  sendPort!.send(5000000000);
   ref.read(executionMessageProvider.notifier).state = 'Sent int to persistant thread!!!';
 }
 
@@ -51,31 +63,43 @@ Future<void> pushByteDataToPersistantThread(Ref ref) async {
   ref.read(executionRunningProvider.notifier).state = false;
 }
 
+void exitPersistantThread(Ref ref) {
+  if (sendPort == null) {
+    ref.read(executionMessageProvider.notifier).state = 'Persistant thread not opened!!!';
+    return;
+  }
+  sendPort!.send('EXIT');
+}
+
 void _persistantThread(SendPort p) async {
   sendPort = p;
   sendPort!.send(receivePort.sendPort);
 
-  await for (final v in receivePort) {
+  receivePort.listen((v) async {
     if (v == 'EXIT') {
       sendPort!.send('EXIT');
       Isolate.current.kill();
-      break;
+      return;
     }
 
+    final now = DateTime.now().millisecondsSinceEpoch;
+    debugPrint(now.toString());
+
     if (v is int) {
+      sendPort!.send('$now\nIterating $v times in persistant thread...');
       int x = 0;
       for (var i = 0; i < v; i++) {
         x++;
       }
-      sendPort!.send('Iterated $x times in persistant thread');
+      sendPort!.send('$now\nIterated $x times in persistant thread');
     }
 
     if (v is (ByteData, RootIsolateToken)) {
-      sendPort!.send('Processing image in persistant thread...');
+      sendPort!.send('$now\nProcessing image in persistant thread...');
       DartPluginRegistrant.ensureInitialized();
       BackgroundIsolateBinaryMessenger.ensureInitialized(v.$2);
       await processImageFromByteData(v.$1);
-      sendPort!.send('Image processed in persistant thread!!!');
+      sendPort!.send('$now\nImage processed in persistant thread!!!');
     }
-  }
+  });
 }

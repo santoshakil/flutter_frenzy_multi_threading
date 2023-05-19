@@ -32,6 +32,7 @@ enum Modules {
       "Open Persistant Thread": openPersistantThread,
       "Push Int To Persistant Thread": pushIntToPersistantThread,
       "Push ByteData To Persistant Thread": pushByteDataToPersistantThread,
+      "Exit Persistant Thread": exitPersistantThread,
     },
   ),
   synchronization(
