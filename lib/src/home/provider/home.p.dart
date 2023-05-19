@@ -25,10 +25,14 @@ class _PageNotifier extends Notifier<PageController> {
     return Modules.values[index - 2].title;
   }
 
-  void goTo(int index) {
+  Future<void> animateTo(int index) async {
     if (index == this.index) return;
     ref.invalidate(executionMessageProvider);
-    state.jumpToPage(index);
+    await state.animateToPage(
+      index,
+      duration: const Duration(milliseconds: 500),
+      curve: Curves.easeInOut,
+    );
     final title = index == 0 || index == 1
         ? 'Welcome to Flutter Frenzy Multi-Threading'
         : index == Modules.values.length + 2
@@ -38,16 +42,16 @@ class _PageNotifier extends Notifier<PageController> {
     ref.read(pageTitleProvider.notifier).state = title;
   }
 
-  void goToNext() {
+  Future<void> animateToNext() async {
     if (index == Modules.values.length + 2) return;
-    goTo(index + 1);
+    await animateTo(index + 1);
     ref.read(pageTitleProvider.notifier).state = title;
     ref.read(pageIndicatorProvider.notifier).state = index;
   }
 
-  void goToPrevious() {
+  Future<void> animateToPrevious() async {
     if (index == 0) return;
-    goTo(index - 1);
+    await animateTo(index - 1);
     ref.read(pageTitleProvider.notifier).state = title;
     ref.read(pageIndicatorProvider.notifier).state = index;
   }

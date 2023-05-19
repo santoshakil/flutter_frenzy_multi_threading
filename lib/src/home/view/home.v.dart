@@ -16,7 +16,7 @@ class HomeView extends ConsumerWidget {
     return Scaffold(
       appBar: AppBar(
         leading: GestureDetector(
-          onTap: () => ref.read(pageControllerProvider.notifier).goTo(0),
+          onTap: () => ref.read(pageControllerProvider.notifier).animateTo(0),
           child: const Padding(
             padding: EdgeInsets.only(left: 10),
             child: AnimatedFlutter(),
@@ -98,7 +98,7 @@ class HomeIntroTile extends ConsumerWidget {
       isThreeLine: true,
       tileColor: context.colors.onPrimary,
       leading: Text(
-        (module.index + 2).toString(),
+        (module.index + 1).toString(),
         style: context.text.headlineLarge!.copyWith(
           color: context.colors.primary,
           fontWeight: FontWeight.w900,
@@ -106,7 +106,7 @@ class HomeIntroTile extends ConsumerWidget {
       ),
       title: Text(module.title, style: context.text.headlineLarge),
       subtitle: Text(module.description, style: context.text.headlineSmall),
-      onTap: () => ref.read(pageControllerProvider.notifier).goTo(module.index + 1),
+      onTap: () => ref.read(pageControllerProvider.notifier).animateTo(module.index + 2),
     );
   }
 }
@@ -124,7 +124,7 @@ class ForwardButton extends ConsumerWidget {
         child: ref.watch(pageIndicatorProvider) == Modules.values.length + 2
             ? const SizedBox.shrink()
             : IconButton.filledTonal(
-                onPressed: ref.read(pageControllerProvider.notifier).goToNext,
+                onPressed: ref.read(pageControllerProvider.notifier).animateToNext,
                 icon: const Icon(Icons.arrow_forward),
               ),
       ),
@@ -145,7 +145,7 @@ class BackwardButton extends ConsumerWidget {
         child: ref.watch(pageIndicatorProvider) == 0
             ? const SizedBox.shrink()
             : IconButton.filledTonal(
-                onPressed: ref.read(pageControllerProvider.notifier).goToPrevious,
+                onPressed: ref.read(pageControllerProvider.notifier).animateToPrevious,
                 icon: const Icon(Icons.arrow_back),
               ),
       ),
